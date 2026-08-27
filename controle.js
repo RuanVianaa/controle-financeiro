@@ -4,6 +4,7 @@ const valorImput = document.getElementById('montante');
 const balancoH1 = document.getElementById('balanco');
 const receitaP = document.getElementById('din-positivo')
 const despesaP = document.getElementById('din-negativo')
+const transacoesUL = document.getElementById('transacoes')
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -26,7 +27,18 @@ form.addEventListener('submit', (e) => {
 
 
     somaAoSaldo(transacao)
+    somaReceitaDespesa(transacao);
+    addTransacaoAoDOM(transacao);
 });
+
+function somaReceitaDespesa (transacao){
+    const elemento = transacao.valor > 0 ? receitaP : despesaP;
+    const substituir = transacao.valor > 0 ? "+ R$" : "- R$";
+    let valorAtual = elemento.innerHTML.replace(substituir, "")
+    valorAtual = parseFloat(valorAtual)
+    valorAtual += Math.abs(transacao.valor);
+    elemento.innerHTML = `${substituir}${valorAtual.toFixed(2)}`
+}
 
 function somaAoSaldo(transacao){
     const valorTransacao = transacao.valor;
